@@ -9,12 +9,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.ImageView;
+import android.widget.SearchView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,8 +54,6 @@ public class NewsActivity extends AppCompatActivity implements  SwipeRefreshLayo
         View view = binding.getRoot();
         setContentView(view);
         initSwipe();
-
-
     }
 
     private void initSwipe() {
@@ -153,7 +158,7 @@ public class NewsActivity extends AppCompatActivity implements  SwipeRefreshLayo
 
     private void initListener(){
 
-        adapter.setOnItemClickListener(new NewsAdapter() {
+        adapter.setOnItemClickListener(new NewsAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 ImageView imageView = view.findViewById(R.id.img);
@@ -180,25 +185,54 @@ public class NewsActivity extends AppCompatActivity implements  SwipeRefreshLayo
                 }
             }
         });
+
     }
 
     private void showErrorMessage(int imageView, String title, String message){
-
-        if (errorLayout.getVisibility() == View.GONE) {
-            errorLayout.setVisibility(View.VISIBLE);
+        if (binding.errorLayout.errorLayout.getVisibility() == View.GONE) {
+            binding.errorLayout.errorLayout.setVisibility(View.VISIBLE);
         }
+        binding.errorLayout.errorImage.setImageResource(imageView);
+        binding.errorLayout.errorTitle.setText(title);
+        binding.errorLayout.errorMessage.setText(message);
 
-        errorImage.setImageResource(imageView);
-        errorTitle.setText(title);
-        errorMessage.setText(message);
-
-        btnRetry.setOnClickListener(new View.OnClickListener() {
+        binding.errorLayout.btnRetry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onLoadingSwipeRefresh("");
             }
         });
+    }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        final SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        MenuItem searchMenuItem = menu.findItem(R.id.action_search);
+
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setQueryHint("Search Latest News...");
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if (query.length() > 2){
+                    onLoadingSwipeRefresh(query);
+                }
+                else {
+                    Toast.makeText(NewsActivity.this, "Type more than two letters!", Toast.LENGTH_SHORT).show();
+                }
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+        searchMenuItem.getIcon().setVisible(false, false);
+        return true;
     }
 
 
