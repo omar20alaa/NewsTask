@@ -1,4 +1,4 @@
-package app.news_task;
+package app.news_task.ui;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -21,6 +21,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.appbar.AppBarLayout;
 
+import app.news_task.R;
 import app.news_task.Utils.Utils;
 import app.news_task.databinding.ActivityNewsDetailBinding;
 

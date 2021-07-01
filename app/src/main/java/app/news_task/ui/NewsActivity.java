@@ -1,4 +1,4 @@
-package app.news_task;
+package app.news_task.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityOptionsCompat;
@@ -18,7 +18,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -26,6 +25,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import app.news_task.R;
 import app.news_task.Utils.Utils;
 import app.news_task.adapter.NewsAdapter;
 import app.news_task.databinding.ActivityNewsBinding;

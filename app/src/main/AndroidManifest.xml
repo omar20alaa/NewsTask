@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.NewsTask">
-        <activity android:name=".NewsActivity">
+        <activity android:name=".ui.NewsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,7 +20,7 @@
         </activity>
 
         <activity
-            android:name=".NewsDetailActivity"
+            android:name=".ui.NewsDetailActivity"
             android:theme="@style/Theme.NewsTask.NoActionBar"/>
 
     </application>
